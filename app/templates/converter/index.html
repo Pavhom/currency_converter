@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row position-absolute top-50 start-50 translate-middle">
+        <form action="" method="POST">
+        {% csrf_token %}
+            <div class="card text-center shadow" style="width: 18rem;">
+                <h5 class="card-header"><i class="bi bi-currency-exchange"></i> Currency converter</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="m-1">
+                            <input class="form-control" {% if amount %} value="{{ amount }}" {% endif %} name="amount" placeholder="Amount" type="number" min="0">
+                        </div>
+                        <div class="m-1">
+                            <select class="form-select" name="from_currency" value="from_currency" aria-label="Default select example">
+                                <option selected>From currency</option>
+                                {% for cur in currencies %}
+                                    <option value="{{ cur }}" {% if from_currency == cur %}selected{% endif %}>{{ cur }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="m-1">
+                            <select class="form-select" name="to_currency" value="to_currency" aria-label="Default select example">
+                                <option selected>To currency</option>
+                                {% for cur in currencies %}
+                                    <option value="{{ cur }}" {% if to_currency == cur %}selected{% endif %}>{{ cur }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </li>
+                    {% if conversion_result %}
+                    <li class="list-group-item">
+                        <p>Result</p>
+                        <h3>{{ conversion_result }}</h3>
+                    </li>
+                    {% endif %}
+                    <li class="list-group-item">
+                        <button type="submit" class="btn btn-primary">Calculate</button>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
